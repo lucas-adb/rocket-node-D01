@@ -1,8 +1,10 @@
+import { randomUUID } from "node:crypto";
+
 export const routes = [
   {
     method: 'GET',
     path: '/tasks',
-    handler: (req, res) => {
+    handler: (_req, res) => {
       console.log('GET foi chamado');
       return res.end();
     },
@@ -11,8 +13,18 @@ export const routes = [
     method: 'POST',
     path: '/tasks',
     handler: (req, res) => {
-      console.log(req.body);
-      return res.end();
+      const { title, description } = req.body;
+
+      const task = {
+        id: randomUUID(),
+        title,
+        description,
+        completed_at: null,
+        created_at: new Date(),
+        updated_at: null,
+      }
+
+      return res.writeHead(201).end(JSON.stringify(task));
     },
   },
 ];
