@@ -1,0 +1,12 @@
+{
+  "name": "fundamentos-do-node-rocketseat",
+  "version": "1.0.0",
+  "description": "Desafio do curso de Node.js da RocketSeat",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js"
+  },
+  "author": "Lucas Alves",
+  "license": "ISC",
+  "type": "module"
+}
