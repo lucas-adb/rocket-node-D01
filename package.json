@@ -4,9 +4,13 @@
   "description": "Desafio do curso de Node.js da RocketSeat",
   "main": "src/server.js",
   "scripts": {
-    "dev": "node --watch src/server.js"
+    "dev": "node --watch src/server.js",
+    "seed:csv": "node src/database/handle-csv-seed.js"
   },
   "author": "Lucas Alves",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "csv-parse": "^5.6.0"
+  }
 }
