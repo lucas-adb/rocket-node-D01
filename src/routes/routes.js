@@ -1,12 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { Database } from '../database/database.js';
+import { handleRoutePath } from '../utils/handle-route-path.js';
 
 const database = new Database();
 
 export const routes = [
   {
     method: 'GET',
-    path: '/tasks',
+    path: handleRoutePath('/tasks'),
     handler: (req, res) => {
       const data = database.select('tasks');
       return res.end(JSON.stringify(data));
@@ -14,7 +15,7 @@ export const routes = [
   },
   {
     method: 'POST',
-    path: '/tasks',
+    path: handleRoutePath('/tasks'),
     handler: (req, res) => {
       const { title, description } = req.body;
 
