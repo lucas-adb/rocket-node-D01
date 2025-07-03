@@ -19,11 +19,11 @@ export const routes = [
     handler: (req, res) => {
       const { title, description } = req.body;
 
-      if (!title.trim() || !description.trim()) {
+      if (!title || !description) {
         return res
           .writeHead(400)
           .end(
-            JSON.stringify({ message: 'Title of Description are required' })
+            JSON.stringify({ message: 'Title and description are required' })
           );
       }
 
@@ -42,6 +42,63 @@ export const routes = [
     },
   },
   {
+    method: 'PUT',
+    path: handleRoutePath('/tasks/:id'),
+    handler: (req, res) => {
+      const { id } = req.params;
+      const { title, description } = req.body;
+
+      if (!title || !description) {
+        return res
+          .writeHead(400)
+          .end(
+            JSON.stringify({ message: 'Title and description are required' })
+          );
+      }
+
+      const tasks = database.select('tasks');
+      const task = tasks.find((task) => task.id === id);
+
+      if (!task) {
+        return res
+          .writeHead(400)
+          .end(JSON.stringify({ message: 'Task not found' }));
+      }
+
+      database.update('tasks', id, {
+        ...task,
+        title,
+        description,
+        updated_at: new Date(),
+      });
+
+      return res.writeHead(204).end();
+    },
+  },
+  {
+    method: 'PATCH',
+    path: handleRoutePath('/tasks/:id'),
+    handler: (req, res) => {
+      const { id } = req.params;
+
+      const tasks = database.select('tasks');
+      const task = tasks.find((task) => task.id === id);
+
+      if (!task) {
+        return res
+          .writeHead(400)
+          .end(JSON.stringify({ message: 'Task not found' }));
+      }
+
+      database.update('tasks', id, {
+        ...task,
+        completed_at: new Date(),
+      });
+
+      return res.writeHead(204).end();
+    },
+  },
+  {
     method: 'DELETE',
     path: handleRoutePath('/tasks/:id'),
     handler: (req, res) => {
@@ -53,9 +110,7 @@ export const routes = [
       if (!task) {
         return res
           .writeHead(400)
-          .end(
-            JSON.stringify({ message: 'Task not found' })
-          );
+          .end(JSON.stringify({ message: 'Task not found' }));
       }
 
       database.delete('tasks', id);
