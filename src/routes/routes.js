@@ -18,6 +18,14 @@ export const routes = [
     handler: (req, res) => {
       const { title, description } = req.body;
 
+      if (!title.trim() || !description.trim()) {
+        return res
+          .writeHead(400)
+          .end(
+            JSON.stringify({ message: 'Title of Description are required' })
+          );
+      }
+
       const task = {
         id: randomUUID(),
         title,
